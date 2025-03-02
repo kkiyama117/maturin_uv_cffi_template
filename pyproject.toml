@@ -1,0 +1,39 @@
+[project]
+name = "gamess_data_manager"
+description = "Add your description here"
+requires-python = ">=3.11"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+dependencies = ["cffi"]
+#dependencies = ["aiohttp>=3.10.11", "requests>=2.32.3"]
+
+[dependency-groups]
+dev = [
+    "maturin>=1.8.2",
+    "maturin-import-hook>=0.1.0",
+    "pip>=25.0.1",
+    "pytest>=8.3.4",
+    "ruff>=0.9.6",
+    "typing-extensions>=4.12.2",
+]
+
+[build-system]
+requires      = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+bindings      = "cffi"
+module-name   = "gamess_data_manager._cffi"
+python-source = "python"
+profile       = "dev"
+features      = ["pyo3/extension-module"]
+manifest-path = "rust/py_modules/Cargo.toml"
+
+[tool.pytest.ini_options]
+addopts   = "-s"
+testpaths = ["python/tests"]

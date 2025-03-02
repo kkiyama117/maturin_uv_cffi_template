@@ -1,0 +1,9 @@
+[package]
+name              = "gamess_input_parser"
+version.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name       = "gamess_input_manager"
+crate-type = ["cdylib", "rlib"]

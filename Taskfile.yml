@@ -1,0 +1,53 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task sync
+    silent: true
+  init:
+    cmds:
+      - uv init
+      - cargo init
+  test:
+    cmds:
+      - task: test_rs
+      - task: test_py
+  format:
+    cmds:
+      - task: format_rs
+      - task: format_py
+  # Rust ===================================================================-
+  test_rs:
+    cmds:
+      - cargo test
+  format_rs:
+    cmds:
+      - cargo clippy --fix --allow-dirty --allow-staged --features 'clippy'
+      - cargo fmt --all
+  run_rs:
+    cmds:
+      - RUST_LOG=info cargo run --features "tokio"
+  run_rs_debug:
+    cmds:
+      - RUST_LOG=debug cargo run --features "debug"
+  # Python and Maturin =====================================================-
+  sync:
+    cmds:
+      - uv run maturin develop
+      - uv sync --all-extras
+  test_py:
+    cmds:
+      - uv run pytest
+  format_py:
+    cmds:
+      - uv run ruff format ./python
+  run_py:
+    cmds:
+      - task: sync
+      - uv run python ./samples/main.py

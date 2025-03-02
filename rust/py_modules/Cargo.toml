@@ -1,0 +1,39 @@
+[package]
+name              = "py_modules"
+version.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name       = "py_modules"
+crate-type = ["cdylib"]
+
+[features]
+default = ["log"]
+log     = ["dep:log", "pyo3-log"]
+tokio   = ["dep:tokio", "pyo3-async-runtimes"]
+
+[dependencies]
+log = { version = "0.4", optional = true }
+
+# serde
+serde      = { version = "1.0.212", features = ["derive"] }
+serde_json = { version = "1.0", optional = true }
+
+# pyo3
+tokio = { version = "1.43", optional = true, features = ["default"] }
+pyo3 = { version = "0.23", features = [
+    "eyre",
+    "extension-module",
+    "chrono",
+    "serde",
+    "experimental-inspect",
+    "auto-initialize",
+    "nightly",
+] }
+pythonize = { version = "0.23" }
+pyo3-log = { version = "0.12.1", optional = true }
+pyo3-async-runtimes = { version = "0.23", optional = true, features = [
+    #"attributes",
+    "tokio-runtime",
+] }
